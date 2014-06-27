@@ -102,8 +102,9 @@ public class MainActivity extends ActionBarActivity {
                     Article a = new Article();
                     a.Title = data.getContent().getFirstElementByClass("ngeb").getTextExtractor().toString();
                     a.Desc = data.getContent().getFirstElementByClass("cnt").getTextExtractor().toString();
-                    List<Element> info = data.getContent().getFirstElementByClass("info").getAllElements("b");
+                    a.Url = data.getContent().getFirstElement(HTMLElementName.A).getAttributeValue("href");
 
+                    List<Element> info = data.getContent().getFirstElementByClass("info").getAllElements("b");
                     SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
                     String date = info.get(0).getTextExtractor().toString();
                     try {

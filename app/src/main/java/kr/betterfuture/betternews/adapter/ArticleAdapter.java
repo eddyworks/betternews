@@ -1,10 +1,13 @@
 package kr.betterfuture.betternews.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -31,7 +34,7 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, final View convertView, ViewGroup parent) {
         View view = super.getView(position, convertView, parent);
 
         ViewHolder holderT = null;
@@ -48,7 +51,8 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
                     .findViewById(R.id.textViewViews);
             holderT.textViewWhenCreated = (TextView) view
                     .findViewById(R.id.textViewWhenCreated);
-
+            holderT.linearArticleListItem = (LinearLayout) view
+                    .findViewById(R.id.linearArticleListItem);
             if (convertView != null) {
 
                 convertView.setTag(holderT);
@@ -66,6 +70,18 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         String whenVal = fmt.format(m.WhenCreated);
         holderT.textViewWhenCreated.setText(whenVal);
 
+        holderT.linearArticleListItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String articleurl = "http://betterfuture.kr" + m.Url;
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse(articleurl));
+                context.startActivity(intent);
+            }
+        });
+
         return view;
     }
 
@@ -74,5 +90,6 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         TextView textViewDesc;
         TextView textViewViews;
         TextView textViewWhenCreated;
+        LinearLayout linearArticleListItem;
     }
 }

@@ -8,6 +8,7 @@ import java.util.Date;
 public class Article {
     public String Title;
     public String Desc;
+    public String Url;
     public int Views;
     public Date WhenCreated;
 }
