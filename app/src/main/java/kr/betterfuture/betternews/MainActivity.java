@@ -106,13 +106,12 @@ public class MainActivity extends ActionBarActivity {
 
                     SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
                     String date = info.get(0).getTextExtractor().toString();
-
                     try {
                         a.WhenCreated = format.parse(date);
                     } catch (ParseException e){
                         e.printStackTrace();
                     }
-
+                    a.Views = Integer.parseInt(info.get(2).getTextExtractor().toString());
                     list.add(a);
                 }
 

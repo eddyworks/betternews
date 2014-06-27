@@ -44,6 +44,8 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
                     .findViewById(R.id.textViewTitle);
             holderT.textViewDesc = (TextView) view
                     .findViewById(R.id.textViewDesc);
+            holderT.textViewViews = (TextView) view
+                    .findViewById(R.id.textViewViews);
             holderT.textViewWhenCreated = (TextView) view
                     .findViewById(R.id.textViewWhenCreated);
 
@@ -57,7 +59,9 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
 
         holderT.textViewTitle.setText(m.Title);
         holderT.textViewDesc.setText(m.Desc);
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm",
+        String views = String.valueOf(m.Views);
+        holderT.textViewViews.setText(views);
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd",
                 Locale.getDefault());
         String whenVal = fmt.format(m.WhenCreated);
         holderT.textViewWhenCreated.setText(whenVal);
@@ -68,6 +72,7 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
     static class ViewHolder {
         TextView textViewTitle;
         TextView textViewDesc;
+        TextView textViewViews;
         TextView textViewWhenCreated;
     }
 }
