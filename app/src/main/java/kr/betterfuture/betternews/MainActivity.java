@@ -13,10 +13,14 @@ import android.widget.ListView;
 
 import net.htmlparser.jericho.Attribute;
 import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Source;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import kr.betterfuture.betternews.adapter.ArticleAdapter;
@@ -82,6 +86,39 @@ public class MainActivity extends ActionBarActivity {
 
             Source source = new Source(r);
 
+            List<Element> elementList = source.getAllElements(HTMLElementName.LI);
+
+            Iterator elementIter = elementList.iterator();
+            elementIter.next();
+
+            while(elementIter.hasNext()) {
+                Element data = (Element) elementIter.next();
+
+                System.out.println(data.getContent());
+                System.out.println("Source text with content:\n" + data);
+
+
+                if(!data.getContent().getAllElements(HTMLElementName.H2).isEmpty()){
+                    Article a = new Article();
+                    a.Title = data.getContent().getFirstElementByClass("ngeb").getTextExtractor().toString();
+                    a.Desc = data.getContent().getFirstElementByClass("cnt").getTextExtractor().toString();
+                    List<Element> info = data.getContent().getFirstElementByClass("info").getAllElements("b");
+
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
+                    String date = info.get(0).getTextExtractor().toString();
+
+                    try {
+                        a.WhenCreated = format.parse(date);
+                    } catch (ParseException e){
+                        e.printStackTrace();
+                    }
+
+                    list.add(a);
+                }
+
+            }
+
+/*
 
             List<Element> elementList = source.getAllElements();
             for (Element element : elementList) {
@@ -124,10 +161,13 @@ public class MainActivity extends ActionBarActivity {
                 }
 
                 //System.out.println(element.getDebugInfo());
-                /*if (element.getAttributes() != null)
+                */
+/*if (element.getAttributes() != null)
                     System.out.println("XHTML StartTag:\n" + element.getStartTag().tidy(true));
-                System.out.println("Source text with content:\n" + element);*/
+                System.out.println("Source text with content:\n" + element);*//*
+
             }
+*/
 
             ArticleAdapter adapter = new ArticleAdapter(getActivity(),
                     R.layout.article_list_item, R.id.textViewTitle,
